@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 //void main()
 //{
@@ -19,27 +19,40 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _questionIndex = 0;
-  final questions = const [
+  int _totalScore = 0;
+  final _questions = const [
       {
         'questionText': "What's your favourite color?",
-        'answers': ['Black', 'Red', 'Green', 'White']
+        'answers': [
+          {'text': 'Black', 'score': 100}, 
+          {'text':'Red', 'score': 20}, 
+          {'text':'Green', 'score': 10}, 
+          {'text':'White', 'score': 0}
+          ]
       },
       {
         'questionText': "What's your favourite animal?",
-        'answers': ['Tiger', 'Platepus', 'Dog', 'Rabbit']
+        'answers': [
+          {'text':'Tiger', 'score':20}, 
+          {'text':'Platepus', 'score':100}, 
+          {'text':'Dog', 'score': 100}, 
+          {'text':'Rabbit', 'score': 20}
+          ]
       },
       {
         'questionText': "Who's your favourite artist?",
-        'answers': ['Katty Perry', 'Charlie Puth', 'Led Zapplein', 'Rahul Gandhi']
+        'answers': [
+          {'text':'Katty Perry', 'score': 10}, 
+          {'text':'Charlie Puth', 'score':100}, 
+          {'text':'Led Zapplein', 'score':50}, 
+          {'text':'Rahul Gandhi', 'score': 100}
+          ]
       },
     ];
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
     setState(() {
       _questionIndex += 1;
-      if(_questionIndex < questions.length)
-      {
-        
-      }
+      _totalScore+=score;
     });
   }
 
@@ -53,16 +66,12 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Color.fromRGBO(50, 50, 250, 1),
         ),
         
-        body: Column(
-          children: [
-            Question(
-              questions[_questionIndex]['questionText'],
-            ),
-            ...(questions[_questionIndex]['answers'] as List<String>).map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList(),
-          ],
-        ),
+        body: _questionIndex < _questions.length ? Quiz(
+          questions: _questions,
+          questionIndex: _questionIndex,
+          answerQuestion: _answerQuestion
+        )
+        : Result(_totalScore),
       ),
     );
   }
