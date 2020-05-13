@@ -1,6 +1,6 @@
 # Playground
 
-This is my first mobile application project by using Flutter.
+This is my first mobile application project by using Flutter by Google Inc.
 
 ## Getting Started
 
